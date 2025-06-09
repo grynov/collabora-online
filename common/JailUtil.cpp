@@ -73,9 +73,9 @@ static void mapuser(uid_t origuid, uid_t newuid, gid_t origgid, gid_t newgid)
 
 } // namespace
 
+#ifdef __linux__
 bool enterMountingNS(uid_t uid, gid_t gid)
 {
-#ifdef __linux__
     // Put this process into its own user and mount namespace.
     // Note: Having multiple threads at unshare time is a known source of failure.
     if (unshare(CLONE_NEWUSER) != 0)
@@ -103,16 +103,10 @@ bool enterMountingNS(uid_t uid, gid_t gid)
     }
 
     return true;
-#else
-    (void)uid;
-    (void)gid;
-    return false;
-#endif
 }
 
 bool enterUserNS(uid_t uid, gid_t gid)
 {
-#ifdef __linux__
     if (unshare(CLONE_NEWUSER) != 0)
     {
         // having multiple threads is a source of failure f.e.
@@ -127,12 +121,8 @@ bool enterUserNS(uid_t uid, gid_t gid)
     assert(getegid() == gid);
 
     return true;
-#else
-    (void)uid;
-    (void)gid;
-    return false;
-#endif
 }
+#endif // __linux__
 
 namespace
 {
