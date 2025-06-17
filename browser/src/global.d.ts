@@ -378,6 +378,7 @@ interface Window {
 	ThisIsTheGtkApp: boolean;
 	ThisIsTheiOSApp: boolean;
 	ThisIsTheMacOSApp: boolean;
+	ThisIsTheQtApp: boolean;
 	ThisIsTheWindowsApp: boolean;
 	wopiSrc: string;
 	zoteroEnabled: boolean;
