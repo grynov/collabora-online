@@ -1220,7 +1220,8 @@ class Socket {
 			(window.ThisIsTheiOSApp ||
 				window.ThisIsTheWindowsApp ||
 				window.ThisIsTheMacOSApp ||
-				window.ThisIsTheEmscriptenApp) &&
+				window.ThisIsTheEmscriptenApp ||
+				window.ThisIsTheQtApp) &&
 			typeof e.data === 'string'
 		) {
 			// Another fix for issue #5843 limit splitting on the first newline
