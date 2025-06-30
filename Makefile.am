@@ -477,6 +477,7 @@ shared_headers = \
                  common/Authorization.hpp \
                  common/CharacterConverter.hpp \
                  common/Clipboard.hpp \
+                 common/ClipboardData.hpp \
                  common/CommandControl.hpp \
                  common/Common.hpp \
                  common/ConfigUtil.hpp \
