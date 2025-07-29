@@ -57,6 +57,11 @@ void DocumentData::deallocate(unsigned docId)
     idToDocDataMap.erase(docId);
 }
 
+int DocumentData::count()
+{
+    return idToDocDataMap.size();
+}
+
 #endif
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
