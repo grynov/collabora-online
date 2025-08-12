@@ -176,7 +176,8 @@ common_sources = \
 	../common/DummyTraceEventEmitter.cpp \
 	../common/FileUtil-unix.cpp \
 	../common/FileUtil.cpp \
-	../common/Log.cpp \
+	../common/Log-common.cpp \
+	../common/Log-poco.cpp \
 	../common/Protocol.cpp \
 	../common/RegexUtil.cpp \
 	../common/Session.cpp \
@@ -225,7 +226,7 @@ unithttplib_LDADD += -lssl -lcrypto
 endif
 
 fakesockettest_CPPFLAGS = -g
-fakesockettest_SOURCES = fakesockettest.cpp  ../net/FakeSocket.cpp ../common/DummyTraceEventEmitter.cpp ../common/Log.cpp ../common/Util.cpp ../common/Util-server.cpp $(util_platform_cpp) ../common/Util-unix.cpp ../common/Globals.cpp
+fakesockettest_SOURCES = fakesockettest.cpp  ../net/FakeSocket.cpp ../common/DummyTraceEventEmitter.cpp ../common/Log-common.cpp ../common/Log-poco.cpp ../common/Util.cpp ../common/Util-server.cpp $(util_platform_cpp) ../common/Util-unix.cpp ../common/Globals.cpp
 fakesockettest_LDADD = $(CPPUNIT_LIBS)
 
 # old-style unit tests - bootstrapped via UnitClient

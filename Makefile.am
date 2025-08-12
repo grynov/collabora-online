@@ -157,7 +157,8 @@ shared_sources = \
                  common/FileUtil-unix.cpp \
                  common/FileUtil.cpp \
                  common/JailUtil.cpp \
-                 common/Log.cpp \
+                 common/Log-common.cpp \
+                 common/Log-poco.cpp \
                  common/MobileApp.cpp \
                  common/Protocol.cpp \
                  common/RegexUtil.cpp \
@@ -243,7 +244,8 @@ endif
 connect_SOURCES = \
                   $(util_platform_cpp) \
                   common/DummyTraceEventEmitter.cpp \
-                  common/Log.cpp \
+                  common/Log-common.cpp \
+                  common/Log-poco.cpp \
                   common/Protocol.cpp \
                   common/StringVector.cpp \
                   common/Util-server.cpp \
@@ -256,7 +258,8 @@ connect_LDADD = libglobals.a
 lokitclient_SOURCES = \
                       $(util_platform_cpp) \
                       common/DummyTraceEventEmitter.cpp \
-                      common/Log.cpp \
+                      common/Log-common.cpp \
+                      common/Log-poco.cpp \
                       common/Protocol.cpp \
                       common/StringVector.cpp \
                       common/TraceEvent.cpp \
@@ -373,7 +376,8 @@ endif # ENABLE_LIBFUZZER
 clientnb_SOURCES = \
                    $(util_platform_cpp) \
                    common/DummyTraceEventEmitter.cpp \
-                   common/Log.cpp \
+                   common/Log-common.cpp \
+                   common/Log-poco.cpp \
                    common/StringVector.cpp \
                    common/Util-server.cpp \
                    common/Util-unix.cpp \
@@ -390,7 +394,8 @@ coolmap_SOURCES = tools/map.cpp
 coolbench_SOURCES = \
                     $(util_platform_cpp) \
                     common/DummyTraceEventEmitter.cpp \
-                    common/Log.cpp \
+                    common/Log-common.cpp \
+                    common/Log-poco.cpp \
                     common/Simd.cpp \
                     common/StringVector.cpp \
                     common/Util-server.cpp \
@@ -415,7 +420,8 @@ coolconfig_SOURCES = \
                     common/ConfigUtil.cpp \
                     common/Crypto.cpp \
                     common/DummyTraceEventEmitter.cpp \
-                    common/Log.cpp \
+                    common/Log-common.cpp \
+                    common/Log-poco.cpp \
                     common/StringVector.cpp \
                     common/Util-server.cpp \
                     common/Util-unix.cpp \
