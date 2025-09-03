@@ -66,6 +66,7 @@
 #include <wsd/DocumentBroker.hpp>
 #include <wsd/PlatformDesktop.hpp>
 #include <wsd/PlatformMobile.hpp>
+#include <wsd/PlatformUnix.hpp>
 #include <wsd/Process.hpp>
 #include <wsd/TraceFile.hpp>
 #include <wsd/wopi/StorageConnectionManager.hpp>
