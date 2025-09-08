@@ -4053,6 +4053,9 @@ void ChildSession::saveLogUiBackground()
 
 void LogUiCommands::logLine(LogUiCommandsLine &line, bool isUndoChange)
 {
+    if constexpr (Util::isMobileApp())
+        return;
+
     // log command
     double timeDiffStart = std::chrono::duration<double>(line._timeStart - _session._docManager->getLogUiCmd().getKitStartTimeSec()).count();
 
@@ -4104,6 +4107,9 @@ void LogUiCommands::logLine(LogUiCommandsLine &line, bool isUndoChange)
 
 void LogUiCommands::logSaveLoad(std::string cmd, const std::string & path, std::chrono::steady_clock::time_point timeStart)
 {
+    if constexpr (Util::isMobileApp())
+        return;
+
     LogUiCommandsLine uiLogLine;
     uiLogLine._timeStart = timeStart;
     uiLogLine._timeEnd = std::chrono::steady_clock::now();
@@ -4134,12 +4140,18 @@ void LogUiCommands::logSaveLoad(std::string cmd, const std::string & path, std::
 LogUiCommands::LogUiCommands(ChildSession& session, const StringVector* tokens)
     : _session(session), _tokens(tokens)
 {
+    if constexpr (Util::isMobileApp())
+        return;
+
     if (_session._isDocLoaded)
         _document = session.getLOKitDocument();
 }
 
 LogUiCommands::~LogUiCommands()
 {
+    if constexpr (Util::isMobileApp())
+        return;
+
     auto document = _document.lock();
     if (!document)
         return;
