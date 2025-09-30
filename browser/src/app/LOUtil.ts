@@ -612,6 +612,7 @@ class LOUtil {
 			graphicfiltersobel: 'graphicfiltersobel',
 			effects: 'pictureeffectsmenu',
 			fitwidthzoom: 'pagewidth',
+			open: 'formularesfapopen',
 		};
 		if (iconURLAliases[cleanName]) {
 			cleanName = iconURLAliases[cleanName];
