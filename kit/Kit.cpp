@@ -2915,7 +2915,7 @@ static void addRecording(const std::string &recording, bool force)
     traceEventRecords[force ? 0 : 1].push_back(recording + "\n");
 }
 
-#if !ENABLE_CODA // ie. normal server
+#if !defined(QTAPP) && !defined(MACOS) && !defined(_WIN32) // ie. normal server
 void TraceEvent::emitOneRecordingIfEnabled(const std::string &recording)
 {
     addRecording(recording, true);
@@ -2925,7 +2925,7 @@ void TraceEvent::emitOneRecording(const std::string &recording)
 {
     addRecording(recording, false);
 }
-#endif // !ENABLE_CODA
+#endif // !defined(QTAPP) && !defined(MACOS) && !defined(_WIN32)
 
 #else
 
