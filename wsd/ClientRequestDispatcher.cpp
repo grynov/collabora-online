@@ -893,7 +893,10 @@ void ClientRequestDispatcher::handleIncomingMessage(SocketDisposition& dispositi
         char* appDocIdBuffer = (char*)malloc(appDocIdLen + 1);
         memcpy(appDocIdBuffer, space + 1, appDocIdLen);
         appDocIdBuffer[appDocIdLen] = '\0';
-        const unsigned mobileAppDocId = Util::u64FromString(appDocIdBuffer, 0).first;
+        const auto [mobileAppDocId, docIdOk] = Util::u64FromString(appDocIdBuffer, 0);
+        if (!docIdOk) {
+            LOG_ERR("Bad document ID \"" << appDocIdBuffer << "\" in \"" << std::string_view(payload, len) << "\"");
+        }
         free(appDocIdBuffer);
 
         handleClientWsUpgrade(request,
