@@ -468,12 +468,38 @@ class UIManager extends window.L.Control {
 		app.serverConnectionService.onBasicUI();
 	}
 
+
+	initializeNonInteractiveUI() {
+		app.console.debug('UIManager: initialize non-interactive basic UI');
+
+		this.map.jsdialog = window.L.control.jsDialog();
+		this.map.addControl(this.map.jsdialog);
+		this.map.dialog = window.L.control.lokDialog();
+		this.map.addControl(this.map.dialog);
+
+		app.serverConnectionService.onBasicUI();
+	}
+
 	/**
 	 * Initializes specialized UI components based on the document type.
 	 * @param docType - Document type (e.g. 'spreadsheet', 'presentation', 'text').
 	 */
 	initializeSpecializedUI(docType: string): void {
 		app.console.debug('UIManager: initialize specialized UI for: ' + docType);
+
+		const startWelcomePresentation = window.coolParams.get('welcome');
+
+		// Return early when we are loading welcome slideshow
+		if (startWelcomePresentation) {
+			this.map.on('docloaded', () => {
+				app.dispatcher.dispatch('presentation');
+			});
+			this.map.slideShowPresenter = new SlideShow.SlideShowPresenter(
+				this.map,
+				window.enableAccessibility,
+			);
+			return;
+		}
 
 		var isDesktop = window.mode.isDesktop();
 		var currentMode = this.getCurrentMode();
@@ -531,6 +557,7 @@ class UIManager extends window.L.Control {
 			this.initializeRuler();
 			this.map.slideShowPresenter = new SlideShow.SlideShowPresenter(this.map, window.enableAccessibility);
 			this.map.presenterConsole = new SlideShow.PresenterConsole(this.map, this.map.slideShowPresenter);
+			this.map.slideShowPresenter = new SlideShow.SlideShowPresenter(this.map, window.enableAccessibility);
 		}
 
 		if (docType === 'text') {
@@ -590,7 +617,6 @@ class UIManager extends window.L.Control {
 		var startFolloMePresntationGet = this.map.isPresentationOrDrawing();
 		var presentationLeaderIdGet = this.map.isPresentationOrDrawing() && window.coolParams.get('presentationLeaderId');
 		var startPresentationGet = this.map.isPresentationOrDrawing() && window.coolParams.get('startPresentation');
-		const startWelcomePresentation = window.coolParams.get('iswelcome');
 		if (this.map.wopi.PresentationLeader)
 		{
 			presentationLeaderIdGet = this.map.wopi.PresentationLeader;
@@ -633,11 +659,6 @@ class UIManager extends window.L.Control {
             // but presentation should start only once
 			this.map.off('updateviewslist', startPresentation);
 			this.map.off('docloaded', startPresentation);
-
-			if (!startWelcomePresentation)
-				window.postMobileMessage('WELCOME');
-			else
-				app.dispatcher.dispatch('presentation');
 		};
 		if (presentationLeaderIdGet !== '')
 			this.map.on('updateviewslist', startPresentation);

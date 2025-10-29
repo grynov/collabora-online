@@ -336,6 +336,7 @@ interface Window {
 		isMobile(): boolean;
 		isDesktop(): boolean;
 		isTablet(): boolean;
+		isCODesktop(): boolean;
 		getDeviceFormFactor(): string;
 	};
 	prefs: {

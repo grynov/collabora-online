@@ -829,6 +829,11 @@ class LayerDrawing {
 
 		this.map.fire('handleslideshowprogressbar', { isVisible: false });
 
+		// show welcome slideshow once 1st slide is rendered
+		const index = this.getSlideInfo(this.requestedSlideHash || this.prefetchedSlideHash).index;
+		if (app.map.slideShowPresenter._isWelcomePresentation && index === 0 && window.mode.isCODesktop())
+			app.socket.sendMessage('SHOW_WELCOME');
+
 		if (!e.success) {
 			const slideHash = this.requestedSlideHash || this.prefetchedSlideHash;
 			const slideInfo = this.getSlideInfo(slideHash);

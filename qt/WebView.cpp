@@ -136,7 +136,7 @@ void WebView::load(const std::string& fileURL, bool isWelcome)
                                     "&appdocid=" +
                                     std::to_string(_document._appDocId) +
                                     "&userinterfacemode=notebookbar" +
-                                    (isWelcome ? "&iswelcome=true" : "");
+                                    (_isWelcome ? "&welcome=true" : "");
 
     LOG_TRC("Open URL: " << urlAndQuery);
     _webView->load(QUrl(QString::fromStdString(urlAndQuery)));
