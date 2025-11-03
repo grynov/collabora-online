@@ -590,6 +590,7 @@ class UIManager extends window.L.Control {
 		var startFolloMePresntationGet = this.map.isPresentationOrDrawing();
 		var presentationLeaderIdGet = this.map.isPresentationOrDrawing() && window.coolParams.get('presentationLeaderId');
 		var startPresentationGet = this.map.isPresentationOrDrawing() && window.coolParams.get('startPresentation');
+		const startWelcomePresentation = window.coolParams.get('iswelcome');
 		if (this.map.wopi.PresentationLeader)
 		{
 			presentationLeaderIdGet = this.map.wopi.PresentationLeader;
@@ -632,6 +633,11 @@ class UIManager extends window.L.Control {
             // but presentation should start only once
 			this.map.off('updateviewslist', startPresentation);
 			this.map.off('docloaded', startPresentation);
+
+			if (!startWelcomePresentation)
+				window.postMobileMessage('WELCOME');
+			else
+				app.dispatcher.dispatch('presentation');
 		};
 		if (presentationLeaderIdGet !== '')
 			this.map.on('updateviewslist', startPresentation);
