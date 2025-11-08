@@ -4059,7 +4059,10 @@ void lokit_main(
             Util::forcedExit(EX_SOFTWARE);
         }
 #else
-        mainKit->insertNewFakeSocket(docBrokerSocket, websocketHandler);
+        bool fatalError =
+            !mainKit->insertNewFakeSocket(docBrokerSocket, websocketHandler);
+        if (fatalError)
+            LOG_SYS("Fatal error connecting to socket #" << docBrokerSocket);
 #endif
 
         LOG_INF("New kit client websocket inserted.");
@@ -4102,8 +4105,11 @@ void lokit_main(
         // KitWebSocketHandler::onDisconnect (in kit/KitWebSocket.cpp):
         mainKit.reset();
 #endif
-        std::unique_lock<std::mutex> lock(termination->mutex);
-        termination->cv.wait(lock,[&]{ return termination->flag; } );
+        if (!fatalError)
+        {
+            std::unique_lock<std::mutex> lock(termination->mutex);
+            termination->cv.wait(lock,[&]{ return termination->flag; } );
+        }
 #endif // !MOBILEAPP
     }
     catch (const Exception& exc)
