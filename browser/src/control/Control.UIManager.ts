@@ -492,7 +492,7 @@ class UIManager extends window.L.Control {
 		// Return early when we are loading welcome slideshow
 		if (startWelcomePresentation) {
 			this.map.on('docloaded', () => {
-				app.dispatcher.dispatch('presentation');
+				app.dispatcher.dispatch('presentinwindow');
 			});
 			this.map.slideShowPresenter = new SlideShow.SlideShowPresenter(
 				this.map,
