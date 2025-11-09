@@ -833,8 +833,22 @@ class LayerDrawing {
 		const slideHash = this.requestedSlideHash || this.prefetchedSlideHash;
 		const slideInfo = this.getSlideInfo(slideHash);
 		const index = slideInfo ? slideInfo.index : undefined;
-		if (app.map.slideShowPresenter._isWelcomePresentation && index === 0 && window.mode.isCODesktop())
-			app.socket.sendMessage('SHOW_WELCOME');
+
+		if (
+			app.map.slideShowPresenter._isWelcomePresentation &&
+			index === 0 &&
+			window.mode.isCODesktop()
+		) {
+			const loader = document.getElementById('welcome-loader');
+			if (loader) {
+				loader.style.opacity = '0';
+				setTimeout(() => {
+					if (loader.parentNode) {
+						loader.parentNode.removeChild(loader);
+					}
+				}, 500);
+			}
+		}
 
 		if (!e.success) {
 			this.requestedSlideHash = null;
