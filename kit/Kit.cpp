@@ -2255,6 +2255,9 @@ std::shared_ptr<lok::Document> Document::load(const std::shared_ptr<ChildSession
 
     invalidateCanonicalId(session->getId());
 
+#ifdef _WIN32
+    load_next_document();
+#endif
     return _loKitDocument;
 }
 
