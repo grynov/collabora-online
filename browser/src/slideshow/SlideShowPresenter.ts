@@ -488,11 +488,7 @@ class SlideShowPresenter {
 		}
 	}
 
-	private _createPresenterHTML(
-		parent: Element,
-		width: number,
-		height: number,
-	) {
+	private _createPresenterHTML(parent: Element, width: number, height: number) {
 		const presenterContainer = window.L.DomUtil.create(
 			'div',
 			'leaflet-slideshow2',
@@ -514,11 +510,7 @@ class SlideShowPresenter {
 		return presenterContainer;
 	}
 
-	_createCanvas(
-		parent: Element,
-		width: number,
-		height: number,
-	) {
+	_createCanvas(parent: Element, width: number, height: number) {
 		const canvas = window.L.DomUtil.create(
 			'canvas',
 			'leaflet-slideshow2',
@@ -633,9 +625,7 @@ class SlideShowPresenter {
 		return slideNavContainer;
 	}
 
-	private _configureSlideNavStyles(
-		container: HTMLDivElement,
-	): void {
+	private _configureSlideNavStyles(container: HTMLDivElement): void {
 		container.style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
 		container.style.position = 'absolute';
 		container.style.bottom = '8px';
@@ -696,8 +686,7 @@ class SlideShowPresenter {
 	};
 
 	_hideSlideControls() {
-		if (!this._slideNavContainer)
-			return;
+		if (!this._slideNavContainer) return;
 		this._slideNavContainer.style.visibility = 'hidden';
 		this._slideNavContainer.style.opacity = '0';
 		this._slideNavContainer.style.transition =
@@ -705,8 +694,7 @@ class SlideShowPresenter {
 	}
 
 	_showSlideControls() {
-		if (!this._slideNavContainer)
-			return;
+		if (!this._slideNavContainer) return;
 
 		this._slideNavContainer.style.visibility = 'visible';
 		this._slideNavContainer.style.opacity = '1';
