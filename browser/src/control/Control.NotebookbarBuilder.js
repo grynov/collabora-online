@@ -237,6 +237,7 @@ window.L.Control.NotebookbarBuilder = window.L.Control.JSDialogBuilder.extend({
 		const tooltipCollapsed = isDesktop ? _('Click to expand') : _('Tap to expand');
 		const tooltipExpanded = isDesktop ? _('Click to collapse') : _('Tap to collapse');
 
+
 		var isFileTab = tabIds[t] === 'File-tab-label' || tabIds[t] === 'File';
 		var isFileTabForCoda = isFileTab && window.mode.isCODesktop();
 		if (!isFileTabForCoda) {
