@@ -117,7 +117,7 @@ class BackstageView extends window.L.Class {
 		mainWrapper.appendChild(this.contentArea);
 		container.appendChild(mainWrapper);
 
-		this.renderHomeView();
+		this.renderNewView();
 		return container;
 	}
 
@@ -177,7 +177,6 @@ class BackstageView extends window.L.Class {
 		return backButton;
 	}
 
-
 	private createTabElement(config: BackstageTabConfig): HTMLElement {
 		const element = this.createElement('div', 'backstage-sidebar-item');
 		element.id = `backstage-${config.id}`;
@@ -202,7 +201,7 @@ class BackstageView extends window.L.Class {
 				label: _('Home'),
 				type: 'view',
 				viewType: 'home',
-				visible: true,
+				visible: false,
 			},
 			{
 				id: 'new',
@@ -937,7 +936,8 @@ class BackstageView extends window.L.Class {
 			: [];
 
 		downloadAsOpts = downloadAsOpts.filter(
-			(option) => option.action !== 'exportpdf' && option.command !== 'exportpdf',
+			(option) =>
+				option.action !== 'exportpdf' && option.command !== 'exportpdf',
 		);
 
 		return {
@@ -945,7 +945,6 @@ class BackstageView extends window.L.Class {
 			downloadAs: downloadAsOpts,
 		};
 	}
-
 
 	private executeOpen(): void {
 		this.sendUnoCommand('.uno:Open');
@@ -1015,11 +1014,11 @@ class BackstageView extends window.L.Class {
 		}
 		this.hide();
 	}
-	
-	private getBaseFileName(): string {  
-		const fileName = this.map?.['wopi']?.BaseFileName || 'document';  
-		const lastDot = fileName.lastIndexOf('.');  
-		return lastDot > 0 ? fileName.substring(0, lastDot) : fileName;  
+
+	private getBaseFileName(): string {
+		const fileName = this.map?.['wopi']?.BaseFileName || 'document';
+		const lastDot = fileName.lastIndexOf('.');
+		return lastDot > 0 ? fileName.substring(0, lastDot) : fileName;
 	}
 
 	private handleExportFallback(action: string): void {
@@ -1041,7 +1040,6 @@ class BackstageView extends window.L.Class {
 		console.error('something want wrong with this action: ', action);
 	}
 
-
 	private sendUnoCommand(command: string): void {
 		if (this.map && this.map.sendUnoCommand) {
 			this.map.sendUnoCommand(command);
@@ -1062,7 +1060,7 @@ class BackstageView extends window.L.Class {
 		this.isVisible = true;
 		$(this.container).removeClass('hidden');
 		this.hideDocumentContainer();
-		this.renderHomeView();
+		this.renderNewView();
 		this.container.focus();
 		this.fireMapEvent('backstageshow');
 	}
