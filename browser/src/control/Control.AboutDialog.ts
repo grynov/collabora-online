@@ -225,13 +225,16 @@ class AboutDialog {
 		// WOPI Host ID
 		elements.wopiHostId.textContent = window.wopiHostId;
 
-		// License information
-		const licenseLink = document.createElement('a');
-		licenseLink.href = 'https://col.la/lic';
-		licenseLink.target = '_blank';
-		licenseLink.rel = 'noopener';
-		licenseLink.textContent = _('License information');
-		elements.licenseInfo.appendChild(licenseLink);
+		// License information (apps only)
+		if (window.ThisIsAMobileApp) {
+			const licenseLink = document.createElement('a');
+			licenseLink.href = 'javascript:void(0)';
+			licenseLink.textContent = _UNO('.uno:ShowLicense');
+			licenseLink.addEventListener('click', () =>
+				window.postMobileMessage('LICENSE'),
+			);
+			elements.licenseInfo.appendChild(licenseLink);
+		}
 
 		// Copyright and vendor
 		const span = document.createElement('span');
@@ -516,9 +519,13 @@ class AboutDialog {
 			infoDiv.appendChild(wopiHostId);
 		}
 
-		// License information
-		const licenseInfo = AboutDialog.createElement('div', { id: 'license-information' });
-		infoDiv.appendChild(licenseInfo);
+		// License information (apps only)
+		const licenseInfo = AboutDialog.createElement('div', {
+			id: 'license-information',
+		});
+		if (window.ThisIsAMobileApp) {
+			infoDiv.appendChild(licenseInfo);
+		}
 
 		// Copyright
 		const copyright = AboutDialog.createElement('p', {
