@@ -29,6 +29,7 @@ interface AboutDialogElements {
 	routeToken: HTMLElement;
 	timeZone: HTMLElement;
 	wopiHostId: HTMLElement;
+	licenseInfo: HTMLElement;
 	copyright: HTMLElement;
 }
 
@@ -223,6 +224,14 @@ class AboutDialog {
 
 		// WOPI Host ID
 		elements.wopiHostId.textContent = window.wopiHostId;
+
+		// License information
+		const licenseLink = document.createElement('a');
+		licenseLink.href = 'https://col.la/lic';
+		licenseLink.target = '_blank';
+		licenseLink.rel = 'noopener';
+		licenseLink.textContent = _('License information');
+		elements.licenseInfo.appendChild(licenseLink);
 
 		// Copyright and vendor
 		const span = document.createElement('span');
@@ -507,6 +516,10 @@ class AboutDialog {
 			infoDiv.appendChild(wopiHostId);
 		}
 
+		// License information
+		const licenseInfo = AboutDialog.createElement('div', { id: 'license-information' });
+		infoDiv.appendChild(licenseInfo);
+
 		// Copyright
 		const copyright = AboutDialog.createElement('p', {
 			className: 'about-dialog-info-div',
@@ -522,6 +535,7 @@ class AboutDialog {
 			routeToken,
 			timeZone,
 			wopiHostId,
+			licenseInfo,
 			copyright,
 		};
 	}
