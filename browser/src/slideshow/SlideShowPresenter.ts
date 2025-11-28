@@ -488,7 +488,12 @@ class SlideShowPresenter {
 		}
 	}
 
-	private _createPresenterHTML(parent: Element, width: number, height: number) {
+	private _createPresenterHTML(
+		parent: Element,
+		width: number,
+		height: number,
+		inWindow: boolean,
+	) {
 		const presenterContainer = window.L.DomUtil.create(
 			'div',
 			'leaflet-slideshow2',
@@ -506,11 +511,17 @@ class SlideShowPresenter {
 			slideshowContainer,
 			width,
 			height,
+			inWindow,
 		);
 		return presenterContainer;
 	}
 
-	_createCanvas(parent: Element, width: number, height: number) {
+	_createCanvas(
+		parent: Element,
+		width: number,
+		height: number,
+		inWindow: boolean
+	) {
 		const canvas = window.L.DomUtil.create(
 			'canvas',
 			'leaflet-slideshow2',
@@ -528,7 +539,7 @@ class SlideShowPresenter {
 
 		this._progressBarContainer = this._createProgressBar(parent);
 		if (!this._isWelcomePresentation)
-			this._slideNavContainer = this._createSlideNav(parent);
+			this._slideNavContainer = this._createSlideNav(parent, inWindow);
 
 		canvas.addEventListener(
 			'click',
@@ -613,7 +624,7 @@ class SlideShowPresenter {
 		JSDialog.progressbar(container, progressData, builderOptions);
 	}
 
-	private _createSlideNav(parent: Element): HTMLDivElement {
+	private _createSlideNav(parent: Element, inWindow: boolean): HTMLDivElement {
 		const slideNavContainer = window.L.DomUtil.create(
 			'div',
 			'slideshow-nav-container',
@@ -621,7 +632,7 @@ class SlideShowPresenter {
 		);
 		slideNavContainer.tabIndex = -1;
 		this._configureSlideNavStyles(slideNavContainer);
-		this._initializeSlideNavWidget(slideNavContainer);
+		this._initializeSlideNavWidget(slideNavContainer, inWindow);
 		return slideNavContainer;
 	}
 
@@ -768,7 +779,7 @@ class SlideShowPresenter {
 		this._updateNextButtonState(currentSlide);
 	}
 
-	private _initializeSlideNavWidget(container: HTMLDivElement): void {
+	private _initializeSlideNavWidget(container: HTMLDivElement, inWindow: boolean): void {
 		const closeImg = window.L.DomUtil.create('img', 'left-img', container);
 		const setImgSize = (img: HTMLImageElement) => {
 			img.style.width = '48px';
@@ -838,7 +849,7 @@ class SlideShowPresenter {
 			}.bind(this),
 		);
 
-		if (window.mode.isCODesktop()) {
+		if (!inWindow && window.mode.isCODesktop()) {
 			const ExchangeImg = window.L.DomUtil.create('img', 'right-img', container);
 			ExchangeImg.id = 'exchange';
 			const followText = _('Exchange');
@@ -1052,6 +1063,7 @@ class SlideShowPresenter {
 			body,
 			window.screen.width,
 			window.screen.height,
+			true
 		);
 
 		window.addEventListener('resize', this.onSlideWindowResize);
@@ -1165,6 +1177,7 @@ class SlideShowPresenter {
 				this._map._container,
 				width,
 				height,
+				inWindow
 			);
 
 			if (this._presenterContainer.requestFullscreen) {
