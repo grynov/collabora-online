@@ -1562,6 +1562,10 @@ class Socket {
 				// edit.
 				app.setPermission('edit');
 				this.close();
+				if (window.ThisIsTheQtApp) {
+					window.postMobileMessage("loaddocument url=" + this._map.options.doc);
+					this.socket?.onopen(new Event('open'));
+				}
 				this._map.loadDocument();
 				this._map.sendInitUNOCommands();
 				Util.ensureValue(command.filename);
