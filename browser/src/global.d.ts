@@ -378,7 +378,6 @@ interface Window {
 	userInterfaceMode: string;
 	ThisIsAMobileApp: boolean;
 	ThisIsTheEmscriptenApp: boolean;
-	ThisIsTheGtkApp: boolean;
 	ThisIsTheiOSApp: boolean;
 	ThisIsTheMacOSApp: boolean;
 	ThisIsTheQtApp: boolean;

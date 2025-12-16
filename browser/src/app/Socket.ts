@@ -602,8 +602,7 @@ class Socket {
 			this._map._debug.logIncomingMessages;
 		if (!logMessage) return;
 
-		if (window.ThisIsTheGtkApp || window.ThisIsTheQtApp)
-			window.postMobileDebug(type + ' ' + msg);
+		if (window.ThisIsTheQtApp) window.postMobileDebug(type + ' ' + msg);
 
 		const debugOn = this._map._debug.debugOn;
 
