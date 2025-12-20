@@ -2163,6 +2163,7 @@ AC_CONFIG_FILES([Makefile
                  cypress_test/Makefile
                  macos/Makefile
                  qt/Makefile
+                 qt/run-from-build
                  wasm/Makefile
                  test/Makefile
                  browser/Makefile
