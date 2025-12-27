@@ -171,6 +171,7 @@ shared_sources = \
                  common/Uri.cpp \
                  common/Util-server.cpp \
                  common/Util-unix.cpp \
+                 common/SettingsStorage.cpp \
                  common/Util.cpp \
                  kit/KitQueue.cpp \
                  kit/LogUI.cpp \
@@ -500,6 +501,7 @@ shared_headers = \
                  common/RenderTiles.hpp \
                  common/Seccomp.hpp \
                  common/Session.hpp \
+                 common/SettingsStorage.hpp \
                  common/SigHandlerTrap.hpp \
                  common/SigUtil.hpp \
                  common/Simd.hpp \

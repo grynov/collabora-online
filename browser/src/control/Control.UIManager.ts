@@ -117,6 +117,9 @@ class UIManager extends window.L.Control {
 		this.map['stateChangeHandler'].setItemValue('toggledarktheme', 'false');
 		this.map['stateChangeHandler'].setItemValue('invertbackground', 'false');
 		this.map['stateChangeHandler'].setItemValue('showannotations', 'true');
+		window.addEventListener('browsersettingchanged', () => {
+			this.initDarkModeFromSettings();
+		});
 	}
 
 	// UI initialization
@@ -642,6 +645,9 @@ class UIManager extends window.L.Control {
 		}
 
 		this.map.on('changeuimode', this.onChangeUIMode, this);
+		window.addEventListener('browsersettingchanged', () => {
+			this.onChangeUIMode({ mode: this.getCurrentMode(), force: true });
+		});
 		this.map.on('backstagehide', () => {
 			setTimeout(() => {
 				this.map.invalidateSize(); // triggers Leaflet layout recalculation
@@ -958,24 +964,16 @@ class UIManager extends window.L.Control {
 
 		this.map.fire('postMessage', {msgId: 'Action_ChangeUIMode_Resp', args: {Mode: uiMode.mode}});
 
-		switch (currentMode) {
-		case 'classic':
-			this.removeClassicUI();
-			break;
-
-		case 'notebookbar':
-			this.removeNotebookbarUI();
-			break;
-		}
-
 		window.userInterfaceMode = uiMode.mode;
 
 		switch (uiMode.mode) {
 		case 'classic':
+			this.removeNotebookbarUI();
 			this.addClassicUI();
 			break;
 
 		case 'notebookbar':
+			this.removeClassicUI();
 			this.addNotebookbarUI();
 			break;
 		}
