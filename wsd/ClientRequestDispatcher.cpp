@@ -882,16 +882,16 @@ void ClientRequestDispatcher::handleIncomingMessage(SocketDisposition& dispositi
     ssize_t len;
     memcpy(&len, socket->getInBuffer().data(), sizeof(ssize_t));
     const char* payload = socket->getInBuffer().data() + sizeof(ssize_t);
-    const char* space = strchr(payload, ' ');
-    if (space != nullptr)
+    auto const space = std::string_view(payload, len).find(' ');
+    if (space != std::string_view::npos)
     {
         // The socket buffer is not nul-terminated so we can't just call strtoull() on the number at
         // its end, it might be followed in memory by more digits. Is there really no better way to
         // parse the number at the end of the buffer than to copy the bytes into a nul-terminated
         // buffer?
-        const size_t appDocIdLen = (payload + len) - (space + 1);
+        const size_t appDocIdLen = len - (space + 1);
         char* appDocIdBuffer = (char*)malloc(appDocIdLen + 1);
-        memcpy(appDocIdBuffer, space + 1, appDocIdLen);
+        memcpy(appDocIdBuffer, payload + space + 1, appDocIdLen);
         appDocIdBuffer[appDocIdLen] = '\0';
         const auto [mobileAppDocId, docIdOk] = Util::u64FromString(appDocIdBuffer, 0);
         if (!docIdOk) {
@@ -900,7 +900,7 @@ void ClientRequestDispatcher::handleIncomingMessage(SocketDisposition& dispositi
         free(appDocIdBuffer);
 
         handleClientWsUpgrade(request,
-                              RequestDetails(std::string(payload, space - payload)),
+                              RequestDetails(std::string(payload, space)),
                               disposition, socket, mobileAppDocId);
     }
     else
