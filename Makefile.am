@@ -171,7 +171,6 @@ shared_sources = \
                  common/Uri.cpp \
                  common/Util-server.cpp \
                  common/Util-unix.cpp \
-                 common/SettingsStorage.cpp \
                  common/Util.cpp \
                  kit/KitQueue.cpp \
                  kit/LogUI.cpp \
