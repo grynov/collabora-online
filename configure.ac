@@ -2148,6 +2148,7 @@ AC_CONFIG_HEADERS([config_version.h])
 
 if test "$enable_iosapp" = "yes"; then
     AC_CONFIG_FILES([ios/config.h
+                 ios/FakeQuickLook/Info.plist
                  ios/Mobile/Info.plist
                  ios/Mobile/Resources/Settings.bundle/Root.plist])
 fi
@@ -2250,11 +2251,15 @@ AS_IF([test "$ENABLE_IOSAPP" = "true"],
           # symlink, so make it a directory of symlinks to the actual png
           # and json files.
           rm -rf ios/Mobile/Assets.xcassets/AppIcon.appiconset
+          rm -rf ios/FakeQuickLook/Assets.xcassets/Icon.imageset
           mkdir ios/Mobile/Assets.xcassets/AppIcon.appiconset
+          mkdir ios/FakeQuickLook/Assets.xcassets/Icon.imageset
           if test -n "$with_iosapp_appicon"; then
              ln -s "$with_iosapp_appicon"/* ios/Mobile/Assets.xcassets/AppIcon.appiconset
+             ln -s "$with_iosapp_appicon"/* ios/FakeQuickLook/Assets.xcassets/Icon.imageset
           else
              ln -s ios/Mobile/Assets.xcassets/Empty.appiconset/* ios/Mobile/Assets.xcassets/AppIcon.appiconset
+             ln -s ios/Mobile/Assets.xcassets/Empty.appiconset/* ios/FakeQuickLook/Assets.xcassets/Icon.imageset
           fi
        fi
       ],
