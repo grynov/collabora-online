@@ -247,6 +247,18 @@ window.L.Map = window.L.Evented.extend({
 			}
 		}, this);
 
+		this.on('pagenumberchanged', function(e) {
+			// Fire an event to let the client know the current page.
+			this.fire('postMessage', {
+				msgId: 'Doc_PageChanged',
+				args: {
+					CurrentPage: e.currentPage,
+					Pages: e.pages,
+					DocType: e.docType
+				}
+			});
+		}, this);
+
 		this.on('commandvalues', function(e) {
 			if (e.commandName === '.uno:LanguageStatus' && app.util.isArray(e.commandValues)) {
 				app.languages = [];
