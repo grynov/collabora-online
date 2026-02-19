@@ -83,7 +83,8 @@ coda_qt_CXXFLAGS += -mno-direct-extern-access
 endif
 endif
 
-coda_qt_SOURCES = coda-qt.cpp WebView.cpp DBusService.cpp Document.cpp $(BUILT_SOURCES) $(cmake_list)
+coda_qt_SOURCES = coda-qt.cpp WebView.cpp DBusService.cpp Document.cpp $(cmake_list)
+nodist_coda_qt_SOURCES = $(BUILT_SOURCES)
 
 metainfodir = $(datadir)/metainfo
 metainfo_DATA = com.collaboraoffice.Office.metainfo.xml
