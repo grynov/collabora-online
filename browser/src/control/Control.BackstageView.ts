@@ -655,7 +655,11 @@ class BackstageView extends window.L.Class {
 		// On Windows a file: URI for a local file looks like this:
 		// file:///C:/Users/tml/foo.odt .  URL::pathname has a leading slash and is thus not
 		// valid as a pathname, we need to strip that slash away.
-		if (window.ThisIsTheWindowsApp && fullPath[0] === '/' && fullPath[2] === ':')
+		if (
+			window.ThisIsTheWindowsApp &&
+			fullPath[0] === '/' &&
+			fullPath[2] === ':'
+		)
 			fullPath = fullPath.slice(1);
 
 		// On Windows, a file: URI for a UNC path looks like this:
