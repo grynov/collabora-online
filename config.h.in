@@ -18,10 +18,14 @@
 #undef COOLWSD_BUILDCONFIG
 
 /* Directory that contains configuration of coolwsd */
+#ifndef COOLWSD_CONFIGDIR
 #undef COOLWSD_CONFIGDIR
+#endif
 
 /* Default coolwsd loglevel */
+#ifndef COOLWSD_LOGLEVEL
 #undef COOLWSD_LOGLEVEL
+#endif
 
 /* Default location of coolwsd log file */
 #undef COOLWSD_LOGFILE
@@ -36,7 +40,9 @@
 #undef COOL_USER_ID
 
 /* Default number of pre-spawn children */
+#ifndef NUM_PRESPAWN_CHILDREN
 #undef NUM_PRESPAWN_CHILDREN
+#endif
 
 /* Absolute path to the top-level source directory */
 #undef DEBUG_ABSSRCDIR
