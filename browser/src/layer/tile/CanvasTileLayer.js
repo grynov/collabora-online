@@ -827,6 +827,14 @@ window.L.CanvasTileLayer = window.L.Layer.extend({
 		return new cool.Bounds(topLeftTwips, bottomRightTwips);
 	},
 
+	_activateGoToPageGuard: function (timeoutMs = 1000) {
+		this._goToPageGuard = true;
+		clearTimeout(this._goToPageGuardTimer);
+		this._goToPageGuardTimer = setTimeout(function () {
+			this._goToPageGuard = false;
+		}.bind(this), timeoutMs);
+	},
+
 	_onMessage: function (textMsg, img) {
 		this._saveMessageForReplay(textMsg);
 		// 'tile:' is the most common message type; keep this the first.

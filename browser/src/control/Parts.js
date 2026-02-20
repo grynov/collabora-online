@@ -88,10 +88,16 @@ window.L.Map.include({
 				app.socket.sendMessage('setclientpart part=' + part);
 		};
 
-		if (app.file.fileBasedView)
-		{
+		if (app.file.fileBasedView) {
+			if (external) {
+				// A server-driven part switch (e.g. .uno:GotoPage) should remain
+				// authoritative while the viewport catches up in file-based view.
+				this._docLayer._activateGoToPageGuard(1000);
+			} else {
+				this._docLayer._goToPageGuard = false;
+				this._docLayer._checkSelectedPart();
+			}
 			docLayer._preview._scrollViewToPartPosition(docLayer._selectedPart);
-			this._docLayer._checkSelectedPart();
 			notifyServer(part);
 			return;
 		}
@@ -291,32 +297,62 @@ window.L.Map.include({
 	},
 
 	goToPage: function (page) {
-		var docLayer = this._docLayer;
+		const docLayer = this._docLayer;
+		const pageRects = app.file && app.file.writer && app.file.writer.pageRectangleList;
+		let sourcePage = docLayer._currentPage;
 		app.idleHandler.notifyActive();
+
+		// In the mode where the cursor is absent, _currentPage may be stale.
+		// Determine the currently visible page from the viewport instead.
+		if ((page === 'prev' || page === 'next') && !this.isEditMode()
+			&& pageRects && pageRects.length > 0
+			&& app.activeDocument && app.activeDocument.activeLayout
+			&& app.activeDocument.activeLayout.viewedRectangle) {
+			const viewedRectangle = app.activeDocument.activeLayout.viewedRectangle.toArray();
+			let maxArea = -1;
+			for (let i = 0; i < pageRects.length; i++) {
+				const intersection = app.LOUtil._getIntersectionRectangle(pageRects[i], viewedRectangle);
+				if (!intersection)
+					continue;
+
+				const area = intersection[2] * intersection[3];
+				if (area > maxArea) {
+					maxArea = area;
+					sourcePage = i;
+				}
+			}
+		}
+
 		if (page === 'prev') {
-			if (docLayer._currentPage > 0) {
-				docLayer._currentPage -= 1;
+			if (sourcePage > 0) {
+				docLayer._currentPage = sourcePage - 1;
 			}
 		}
 		else if (page === 'next') {
-			if (docLayer._currentPage < docLayer._pages - 1) {
-				docLayer._currentPage += 1;
+			if (sourcePage < docLayer._pages - 1) {
+				docLayer._currentPage = sourcePage + 1;
 			}
 		}
 		else if (typeof (page) === 'number' && page >= 0 && page < docLayer._pages) {
 			docLayer._currentPage = page;
 		}
-		if (!this.isEditMode() && app.file.writer.pageRectangleList.length > docLayer._currentPage) {
-			const posY = Math.round(app.file.writer.pageRectangleList[docLayer._currentPage][1] / app.dpiScale);
+
+		if (!this.isEditMode() && pageRects && pageRects.length > docLayer._currentPage) {
+			const posY = Math.round(pageRects[docLayer._currentPage][1] / app.dpiScale);
 
 			const section = app.sectionContainer.getSectionWithName(app.CSections.Scroll.name);
 			if (section)
 				section.onScrollTo({x: 0, y: posY});
 
-			var state = 'Page ' + (docLayer._currentPage + 1) + ' of ' + app.file.writer.pageRectangleList.length;
-			this.fire('updatestatepagenumber',{
+			const state = 'Page ' + (docLayer._currentPage + 1) + ' of ' + pageRects.length;
+			this.fire('updatestatepagenumber', {
 				state: state
 			});
+
+			// Suppress stale setpart: responses from the server while
+			// the viewport catches up.  Without a cursor the server
+			// cannot track the page and would reset _currentPage.
+			docLayer._activateGoToPageGuard(1000);
 		}
 		else {
 			app.socket.sendMessage('setpage page=' + docLayer._currentPage);

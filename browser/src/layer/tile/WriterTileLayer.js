@@ -89,7 +89,7 @@ window.L.WriterTileLayer = window.L.CanvasTileLayer.extend({
 
 	_onSetPartMsg: function (textMsg) {
 		var part = parseInt(textMsg.match(/\d+/g)[0]);
-		if (part !== this._currentPage) {
+		if (part !== this._currentPage && !this._goToPageGuard) {
 			this._currentPage = part;
 			this._map.fire('pagenumberchanged', {
 				currentPage: part,
@@ -142,7 +142,9 @@ window.L.WriterTileLayer = window.L.CanvasTileLayer.extend({
 			app.activeDocument.activeModes = [mode];
 
 		this._parts = 1;
-		this._currentPage = statusJSON.selectedpart;
+		if (!this._goToPageGuard) {
+			this._currentPage = statusJSON.selectedpart;
+		}
 		this._pages = statusJSON.partscount;
 		app.file.writer.pageRectangleList = statusJSON.pagerectangles.slice(); // Copy the array.
 		this._map.fire('pagenumberchanged', {
