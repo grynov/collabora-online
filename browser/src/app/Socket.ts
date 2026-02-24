@@ -1563,7 +1563,7 @@ class Socket {
 				app.setPermission('edit');
 				this.close();
 				if (window.ThisIsTheQtApp || window.ThisIsTheWindowsApp) {
-					window.postMobileMessage("loaddocument url=" + this._map.options.doc);
+					window.postMobileMessage('loaddocument url=' + this._map.options.doc);
 					this.socket?.onopen(new Event('open'));
 				}
 				this._map.loadDocument();

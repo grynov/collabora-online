@@ -339,7 +339,12 @@ class BackstageView extends window.L.Class {
 				icon: 'lc_exportto.svg',
 				visible: !this.isStarterMode,
 			},
-			{ type: 'separator', id: 'sidebar-horizontal-break', label: '', visible: !this.isStarterMode },
+			{
+				type: 'separator',
+				id: 'sidebar-horizontal-break',
+				label: '',
+				visible: !this.isStarterMode,
+			},
 			{
 				id: 'options',
 				label: _('Options'),
@@ -383,7 +388,10 @@ class BackstageView extends window.L.Class {
 		const featureFlags: Record<string, boolean> = {
 			share: !!wopi.EnableShare,
 			save: !wopi.HideSaveOption,
-			saveAs: !wopi.UserCanNotWriteRelative || window.ThisIsTheQtApp || window.ThisIsTheWindowsApp,
+			saveAs:
+				!wopi.UserCanNotWriteRelative ||
+				window.ThisIsTheQtApp ||
+				window.ThisIsTheWindowsApp,
 			print: !wopi.HidePrintOption,
 			repair: !wopi.HideRepairOption,
 		};
