@@ -1586,9 +1586,10 @@ class SettingIframe {
 
 			// browser settings
 			if (data.browsersetting && data.browsersetting.length > 0) {
-				const browserSettingContent = await this.settingsStorage.fetchSettingFile(
-					data.browsersetting[0].uri,
-				);
+				const browserSettingContent =
+					await this.settingsStorage.fetchSettingFile(
+						data.browsersetting[0].uri,
+					);
 				this.browserSettingOptions = browserSettingContent
 					? this.mergeWithDefault(
 							defaultBrowserSetting,
@@ -1605,7 +1606,9 @@ class SettingIframe {
 		if (!settingsContainer) return;
 		if (!(window.parent as any).mode.isCODesktop()) {
 			if (data.xcu && data.xcu.length > 0) {
-				const xcuFileContent = await this.settingsStorage.fetchSettingFile(data.xcu[0].uri);
+				const xcuFileContent = await this.settingsStorage.fetchSettingFile(
+					data.xcu[0].uri,
+				);
 				this.xcuEditor = new (window as any).Xcu(
 					this.getFilename(data.xcu[0].uri, false),
 					xcuFileContent,

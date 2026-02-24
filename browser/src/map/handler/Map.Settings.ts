@@ -69,11 +69,12 @@ window.L.Map.Settings = window.L.Handler.extend({
 
 		if (window.mode.isCODesktop())
 			window.postMobileMessage(
-				"PROCESSINTEGRATORADMINFILE " + JSON.stringify({
-					ui_theme: theme,
-					lang: window.langParam,
-					mobile: window.mode.isMobile(),
-				})
+				'PROCESSINTEGRATORADMINFILE ' +
+					JSON.stringify({
+						ui_theme: theme,
+						lang: window.langParam,
+						mobile: window.mode.isMobile(),
+					}),
 			);
 
 		const options = {
