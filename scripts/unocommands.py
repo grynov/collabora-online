@@ -520,7 +520,11 @@ if __name__ == "__main__":
     dif = requiredCommands - processedCommands
 
     if len(dif) > 0:
-        sys.stderr.write("ERROR: The following commands are not covered in unocommands.js, run scripts/unocommands.py --update:\n\n.uno:" + '\n.uno:'.join(dif) + "\n\n")
+        if check:
+            sys.stderr.write("ERROR: The following commands are not covered in unocommands.js, run scripts/unocommands.py --update:\n\n")
+        else:
+            sys.stderr.write("ERROR: The following commands are referenced in Online but have no description in the core XCU files:\n\n")
+        sys.stderr.write(".uno:" + '\n.uno:'.join(sorted(dif)) + "\n\n")
         exit(1)
 
     if (translate):
