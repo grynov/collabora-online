@@ -45,7 +45,7 @@
 "Insert":"Selapkeun",
 "Landscape":"Ngagolér",
 "Lines and Arrows":"Gurat jeung Jamparing",
-"List":"Éntépan",
+"List":"Béréndélan",
 "List Indent":"Éntépkeun Indéntasi",
 "No List":"Euweuh Éntépan",
 "Note":"Cutatan",
@@ -76,14 +76,5 @@
 "Title":"Judul",
 "Title A0":"Judul A0",
 "Title A4":"Judul A4",
-"Title Only":"Judul Wungkul",
-"Title Slide":"Judul Galasar",
-"Title and 2 Content":"Judul jeung 2 Eusi",
-"Title, 2 Content and Content":"Judul, 2 Eusi jeung Eusi",
-"Title, 2 Content over Content":"Judul, 2 Eusi saluhureun Eusi",
-"Title, 4 Content":"Judul, 4 Eusi",
-"Title, 6 Content":"Judul, 6 Eusi",
-"Title, Content":"Judul, Eusi",
-"Title, Content and 2 Content":"Judul, Eusi jeung 2 Eusi",
-"Title, Content over Content":"Judul, Eusi saluhureun Eusi"
+"Title Only":"Judul Wungkul"
 }
