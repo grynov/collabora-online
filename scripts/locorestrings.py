@@ -10,6 +10,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
+import json
 import os
 import polib
 import sys
@@ -122,8 +123,8 @@ if __name__ == "__main__":
                 f.write(',\n')
             else:
                 writeComma = True
-            f.write(
-                ('"' + key + '":"' + translations[key] + '"'))
+            f.write(json.dumps(key, ensure_ascii=False) + ':'
+                    + json.dumps(translations[key], ensure_ascii=False))
 
         f.write('\n}\n')
 
