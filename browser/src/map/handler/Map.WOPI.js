@@ -835,6 +835,9 @@ window.L.Map.WOPI = window.L.Handler.extend({
 				}
 			}
 		}
+		else if (msg.MessageId === 'Action_GoToPart') {
+			this._goToPart(msg.Values && msg.Values.Part);
+		}
 		else if (msg.MessageId === 'Action_GoToComment') {
 			if (msg.Values) {
 				var commentSection = app.sectionContainer.getSectionWithName(app.CSections.CommentList.name);
@@ -858,6 +861,47 @@ window.L.Map.WOPI = window.L.Handler.extend({
 				eSignature.handleSigned(msg);
 			}
 		}
+	},
+
+	_goToPart: function(part) {
+		var requestedPart = Number(part);
+		if (!Number.isSafeInteger(requestedPart)) {
+			this._sendGoToPartResp(null, false, 'Part must be an integer');
+			return;
+		}
+
+		var targetPart = requestedPart - 1;
+		var docLayer = this._map._docLayer;
+		if (!docLayer) {
+			this._sendGoToPartResp(requestedPart, false, 'Document layer unavailable');
+			return;
+		}
+
+		var isTextDocument = docLayer._docType === 'text';
+		var partCount = isTextDocument ? docLayer._pages : docLayer._parts;
+		if (!Number.isSafeInteger(partCount) || partCount <= 0) {
+			this._sendGoToPartResp(requestedPart, false, 'Part count unavailable');
+			return;
+		}
+
+		if (targetPart < 0 || targetPart >= partCount) {
+			this._sendGoToPartResp(requestedPart, false, 'Part is out of range');
+			return;
+		}
+
+		if (isTextDocument) {
+			this._map.goToPage(targetPart);
+		} else {
+			this._map.setPart(targetPart);
+		}
+
+		var currentPart = isTextDocument ? docLayer._currentPage : docLayer._selectedPart;
+		if (currentPart !== targetPart) {
+			this._sendGoToPartResp(requestedPart, false, 'Failed to navigate to requested part');
+			return;
+		}
+
+		this._sendGoToPartResp(requestedPart, true);
 	},
 
 	_goToComment: function(commentSection, commentId) {
@@ -972,6 +1016,16 @@ window.L.Map.WOPI = window.L.Handler.extend({
 			args.errorMsg = errorMsg;
 		this._map.fire('postMessage', {
 			msgId: 'Action_GoToComment_Resp',
+			args: args
+		});
+	},
+
+	_sendGoToPartResp: function(part, success, errorMsg) {
+		var args = { Part: part, success: success };
+		if (errorMsg)
+			args.errorMsg = errorMsg;
+		this._map.fire('postMessage', {
+			msgId: 'Action_GoToPart_Resp',
 			args: args
 		});
 	},
