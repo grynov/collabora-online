@@ -1,7 +1,12 @@
 /* global describe it cy beforeEach */
 
 import { setupAndLoadDocument } from '../../common/helper';
-import { stubParentPostMessage, expectDocPartChanged, resetDocPartChangedCache } from '../../common/postmessage_helper';
+import {
+	stubParentPostMessage,
+	expectDocPartChanged,
+	resetDocPartChangedCache,
+	addGoToPartPostMessageTests
+} from '../../common/postmessage_helper';
 
 describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Writer Doc_PartChanged postMessage', function() {
 
@@ -35,5 +40,13 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Writer Doc_PartChanged pos
 			parts: [1],
 			minPartCount: 1
 		});
+	});
+
+	addGoToPartPostMessageTests({
+		viewer: 'writer',
+		navigationOptions: {
+			partCountProperty: '_pages',
+			currentPartProperty: '_currentPage'
+		}
 	});
 });

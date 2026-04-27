@@ -1,7 +1,12 @@
 /* global describe it cy beforeEach expect */
 
 import { setupAndLoadDocument } from '../../common/helper';
-import { stubParentPostMessage, expectDocPartChanged, resetDocPartChangedCache } from '../../common/postmessage_helper';
+import {
+	stubParentPostMessage,
+	expectDocPartChanged,
+	resetDocPartChangedCache,
+	addGoToPartPostMessageTests
+} from '../../common/postmessage_helper';
 
 describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Impress Doc_PartChanged postMessage', function() {
 
@@ -63,4 +68,6 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Impress Doc_PartChanged po
 			docType: 'presentation'
 		});
 	});
+
+	addGoToPartPostMessageTests({ viewer: 'impress' });
 });
